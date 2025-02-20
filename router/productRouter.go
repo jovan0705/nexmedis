@@ -13,7 +13,7 @@ func ProductRouter(r *mux.Router) *mux.Router {
 	route_product := r.PathPrefix("/products").Subrouter()
 	route_product.Use(middleware.IsAuthenticated)
 
-	route_product.HandleFunc("/", productController.GetAllProducts).Methods("GET")
+	route_product.HandleFunc("", productController.GetAllProducts).Methods("GET")
     route_product.HandleFunc("/{id}", productController.GetProduct).Methods("GET")
 	return r
 }

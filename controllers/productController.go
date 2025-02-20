@@ -15,7 +15,9 @@ type ProductController struct{}
 // GetAllProducts handles fetching all products
 func (pc *ProductController) GetAllProducts(w http.ResponseWriter, r *http.Request) {
     conn := config.GetDB()
-    rows, err := conn.Query(context.Background(), "SELECT id, name, price, description FROM products")
+    search := r.URL.Query().Get("search")
+    query := "SELECT id, name, price, description FROM products WHERE name ILIKE $1"
+    rows, err := conn.Query(context.Background(), query, "%"+search+"%")
     if err != nil {
         http.Error(w, "Error fetching products", http.StatusInternalServerError)
         return
